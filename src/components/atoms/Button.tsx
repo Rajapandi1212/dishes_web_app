@@ -1,8 +1,8 @@
 "use client";
 import { Button as Btn } from "@fluentui/react-components";
 type Props = {
-  onclick: any;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  onclick?: any;
   appearance?:
     | "primary"
     | "secondary"
@@ -12,11 +12,16 @@ type Props = {
     | undefined;
 };
 export const Button = ({
-  onclick,
+  onclick = () => null,
   children,
   appearance = "primary",
 }: Props) => (
-  <Btn appearance={appearance} onClick={onclick} className="cursor-pointer">
+  <Btn
+    size={"small"}
+    appearance={appearance}
+    onClick={onclick}
+    className="cursor-pointer"
+  >
     {children}
   </Btn>
 );

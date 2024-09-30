@@ -1,6 +1,6 @@
-import { useTranslations } from "next-intl";
+import Table from "@/components/organisms/Table";
 
-export default function Home() {
-  const t = useTranslations("homepage");
-  return <main>{t("title")}</main>;
+export default async function Home(props: any) {
+  console.log("RP Props :", props);
+  return <Table />;
 }

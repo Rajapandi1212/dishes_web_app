@@ -17,6 +17,7 @@ const config: Config = {
         light: "var(--bg-light)",
         button: "var(--button)",
         primary: "var(--primary)",
+        "primary-light": "var(--primary-light)",
       },
     },
   },

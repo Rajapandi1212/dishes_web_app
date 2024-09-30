@@ -27,7 +27,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <RendererProvider renderer={renderer}>
       <SSRProvider>
-        <FluentProvider theme={teamsLightTheme}>
+        <FluentProvider theme={teamsLightTheme} className="min-h-screen">
           <Navbar />
           {children}
         </FluentProvider>

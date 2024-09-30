@@ -9,10 +9,12 @@
     --text-light:#e5e5e5;
     --button:#3673fd;
     --primary:#5b5fc7;
+    --primary-light:#5b5fc717
     }
     
 
 body{
-    max-width: 1600px;
+    max-width: 1400px;
     margin:0 auto;
+    min-height: 100vh;
 }

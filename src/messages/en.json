@@ -1,5 +1,8 @@
 {
     "homepage": {
         "title": "Welcome to my Homepage"
+    },
+    "dish": {
+        "ingredients": "Ingredients"
     }
 }

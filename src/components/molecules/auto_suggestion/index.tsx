@@ -33,6 +33,11 @@ const AutoSuggestion = () => {
     }
   };
 
+  const handleButtonClick = () => {
+    setIsOpenList(false);
+    setValue("");
+  };
+
   useEffect(() => {
     const getSuggestions = async () => {
       if (shouldFetch) {
@@ -82,7 +87,11 @@ const AutoSuggestion = () => {
       />
       {shouldFetch && isOpenList ? (
         <div className="absolute w-full top-full z-10 shadow-2xl py-2 px-1 backdrop-blur-lg bg-slate-100 border">
-          <VirtualList loading={loading} dishes={sugeestionRes?.data} />
+          <VirtualList
+            loading={loading}
+            dishes={sugeestionRes?.data}
+            handleButtonClick={handleButtonClick}
+          />
         </div>
       ) : null}
     </div>

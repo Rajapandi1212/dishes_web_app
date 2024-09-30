@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import {
   Virtualizer,
   useStaticVirtualizerMeasure,
@@ -6,6 +6,7 @@ import {
 
 import { makeStyles } from "@fluentui/react-components";
 import { Button } from "./Button";
+import Link from "next/link";
 
 const useStyles = makeStyles({
   container: {
@@ -20,10 +21,15 @@ const useStyles = makeStyles({
 
 type Props = {
   loading: boolean;
+  handleButtonClick: () => void;
   dishes: { id: number; name: string }[];
 };
 
-export const VirtualList = ({ loading, dishes = [] }: Props) => {
+export const VirtualList = ({
+  loading,
+  handleButtonClick,
+  dishes = [],
+}: Props) => {
   const styles = useStyles();
   const [showOverlay, setShowOverlay] = useState(loading);
   const childLength = dishes?.length;
@@ -85,11 +91,13 @@ export const VirtualList = ({ loading, dishes = [] }: Props) => {
                 aria-posinset={index}
                 aria-setsize={childLength}
                 key={`dish-virtualizer-child-${index}`}
-                className="flex justify-between items-center gap-2 p-2 pr-4 border-b-2"
+                className="flex justify-between items-center gap-2 p-2 md:pr-4 border-b-2"
               >
                 <span>{dish?.name}</span>
 
-                <Button onclick={() => console.log(dish)}>View</Button>
+                <Link href={`/dish/${dish?.id}`} className="">
+                  <Button onclick={handleButtonClick}>VIEW</Button>
+                </Link>
               </div>
             );
           }}
