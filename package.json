@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@fluentui/react-components": "^9.54.17",
+    "axios": "^1.7.7",
+    "fluentui-next-appdir-directive": "^0.1.7",
     "next": "14.2.13",
     "next-intl": "^3.20.0",
     "react": "^18",
