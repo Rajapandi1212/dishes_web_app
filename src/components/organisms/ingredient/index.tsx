@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/atoms/Button";
+import { SubTitle } from "@/components/atoms/Text";
 import { parseQueryString } from "@/helpers/common";
 import { ApiResponse, DishSuggestionParams, Ingredient } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -29,21 +30,24 @@ const Ingredients = ({ ingredientsData }: Props) => {
     router.push(`/suggestions?${query}`);
   };
   return (
-    <div className="flex flex-wrap gap-4 border-2 p-2 md:px--6 py-4 max-h-[60vh] overflow-y-auto mb-4">
-      {ingredientsData?.map((ingredients) => (
-        <button
-          key={ingredients?.name}
-          onClick={() => handleUpdateFilters(ingredients?.name)}
-          className={`capitalize border px-2 py-1  ${
-            filterState?.ingredientsFilter?.includes(ingredients?.name)
-              ? "border-blue-500"
-              : "border-black"
-          }`}
-        >
-          {ingredients?.name}
-        </button>
-      ))}
-    </div>
+    <>
+      <SubTitle className="my-1">Choose the Ingredients</SubTitle>
+      <div className="flex flex-wrap gap-4 border-2 p-2 md:px--6 py-4 max-h-[60vh] overflow-y-auto mb-4">
+        {ingredientsData?.map((ingredients) => (
+          <button
+            key={ingredients?.name}
+            onClick={() => handleUpdateFilters(ingredients?.name)}
+            className={`capitalize border px-2 py-1  ${
+              filterState?.ingredientsFilter?.includes(ingredients?.name)
+                ? "border-blue-500"
+                : "border-black"
+            }`}
+          >
+            {ingredients?.name}
+          </button>
+        ))}
+      </div>
+    </>
   );
 };
 

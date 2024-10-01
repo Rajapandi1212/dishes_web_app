@@ -1,6 +1,6 @@
 import AutoSuggestion from "@/components/molecules/auto_suggestion";
 import { Avatar } from "@fluentui/react-components";
-import { PeopleRegular } from "@fluentui/react-icons";
+import { Food28Regular } from "@fluentui/react-icons";
 import Link from "next/link";
 
 const Navbar = () => {
@@ -13,13 +13,15 @@ const Navbar = () => {
         <div className="md:hidden text-4xl font-bold text-primary">D</div>
       </Link>
       <AutoSuggestion />
-      <Avatar
-        className="justify-self-center"
-        icon={<PeopleRegular />}
-        color="brand"
-        size={40}
-        aria-label="Group"
-      />
+      <Link href="/suggestions">
+        <Avatar
+          className="justify-self-center"
+          icon={<Food28Regular />}
+          color="brand"
+          size={40}
+          aria-label="Group"
+        />
+      </Link>
     </div>
   );
 };
