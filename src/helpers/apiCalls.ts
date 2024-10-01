@@ -11,3 +11,11 @@ export const autoSuggestion = async (config?: any) => {
 export const getDish = async (id: string) => {
   return await GET(`/dishes/${id}`)?.then((res) => res?.data?.[0]);
 };
+
+export const getIngredients = async () => {
+  return await GET("/ingredients");
+};
+
+export const dishesSuggestion = async (config?: any) => {
+  return await GET("/dishes/suggest", config);
+};

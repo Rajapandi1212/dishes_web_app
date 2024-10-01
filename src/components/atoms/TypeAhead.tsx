@@ -5,7 +5,7 @@ import { makeStyles } from "@fluentui/react-components";
 
 const useStyles = makeStyles({
   container: {
-    maxWidth: "1000px",
+    maxWidth: "1400px",
     width: "100%",
   },
 });

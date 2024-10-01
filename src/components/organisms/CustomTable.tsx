@@ -13,7 +13,6 @@ import Filters from "../molecules/Filters";
 import { getOrderByName, isSortedASC } from "@/helpers/common";
 import Pagination from "../molecules/Pagination";
 import PerPage from "../molecules/PerPage";
-// import DishesTable from "./DishesTable";
 interface Props {
   tableData: ApiResponse<Dish[]>;
 }

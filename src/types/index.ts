@@ -12,6 +12,11 @@ export interface Dish {
   ingredient_names: string[];
 }
 
+export interface Ingredient {
+  id: number;
+  name: string;
+}
+
 export interface BaseSuccessResponse<T> {
   success: true;
   count: number;
@@ -39,4 +44,8 @@ export interface DishFilterParams {
   state?: string;
   region?: string;
   diet?: string;
+}
+
+export interface DishSuggestionParams {
+  ingredientsFilter?: string[];
 }
