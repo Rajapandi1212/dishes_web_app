@@ -211,7 +211,6 @@ export const DataGridTable = () => {
                       <MenuTrigger>
                         <DataGridHeaderCell
                           ref={(el) => {
-                            // console.log("RP table :", columnId, dataGrid);
                             refMap.current[columnId] = el;
                           }}
                         >

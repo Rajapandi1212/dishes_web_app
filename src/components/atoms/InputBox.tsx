@@ -12,7 +12,6 @@ const InputBox = ({ label, value, setValue }: Props) => {
   const onChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const rawValue = event?.target?.value;
-      console.log(rawValue);
       setValue(rawValue);
     },
     [setValue]
