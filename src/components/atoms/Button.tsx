@@ -10,14 +10,16 @@ type Props = {
     | "subtle"
     | "transparent"
     | undefined;
+  size?: "small" | "medium" | "large";
 };
 export const Button = ({
   onclick = () => null,
   children,
   appearance = "primary",
+  size = "small",
 }: Props) => (
   <Btn
-    size={"small"}
+    size={size}
     appearance={appearance}
     onClick={onclick}
     className="cursor-pointer"

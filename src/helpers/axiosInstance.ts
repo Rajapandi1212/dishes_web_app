@@ -6,6 +6,13 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+axiosInstance.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    return { data: { ...err?.response?.data }, ststus: err?.response?.staus };
+  }
+);
+
 export const GET = async (url: string, config = {}) => {
   return await axiosInstance
     .get(url, { ...config })

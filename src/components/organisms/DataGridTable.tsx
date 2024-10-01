@@ -1,28 +1,31 @@
+"use client";
 import * as React from "react";
 import {
   FolderRegular,
   EditRegular,
   OpenRegular,
   DocumentRegular,
+  PeopleRegular,
   DocumentPdfRegular,
   VideoRegular,
-  DeleteRegular,
 } from "@fluentui/react-icons";
 import {
   PresenceBadgeStatus,
   Avatar,
-  DataGridBody,
-  DataGridRow,
   DataGrid,
+  DataGridBody,
+  DataGridCell,
   DataGridHeader,
   DataGridHeaderCell,
-  DataGridCell,
+  DataGridRow,
   TableCellLayout,
   TableColumnDefinition,
   createTableColumn,
-  Button,
-  TableColumnId,
-  DataGridCellFocusMode,
+  Menu,
+  MenuList,
+  MenuPopover,
+  MenuTrigger,
+  MenuItem,
 } from "@fluentui/react-components";
 
 type FileCell = {
@@ -35,6 +38,11 @@ type LastUpdatedCell = {
   timestamp: number;
 };
 
+type LastUpdateCell = {
+  label: string;
+  icon: JSX.Element;
+};
+
 type AuthorCell = {
   label: string;
   status: PresenceBadgeStatus;
@@ -44,6 +52,7 @@ type Item = {
   file: FileCell;
   author: AuthorCell;
   lastUpdated: LastUpdatedCell;
+  lastUpdate: LastUpdateCell;
 };
 
 const items: Item[] = [
@@ -51,21 +60,37 @@ const items: Item[] = [
     file: { label: "Meeting notes", icon: <DocumentRegular /> },
     author: { label: "Max Mustermann", status: "available" },
     lastUpdated: { label: "7h ago", timestamp: 1 },
+    lastUpdate: {
+      label: "You edited this",
+      icon: <EditRegular />,
+    },
   },
   {
     file: { label: "Thursday presentation", icon: <FolderRegular /> },
     author: { label: "Erika Mustermann", status: "busy" },
     lastUpdated: { label: "Yesterday at 1:45 PM", timestamp: 2 },
+    lastUpdate: {
+      label: "You recently opened this",
+      icon: <OpenRegular />,
+    },
   },
   {
     file: { label: "Training recording", icon: <VideoRegular /> },
     author: { label: "John Doe", status: "away" },
     lastUpdated: { label: "Yesterday at 1:45 PM", timestamp: 2 },
+    lastUpdate: {
+      label: "You recently opened this",
+      icon: <OpenRegular />,
+    },
   },
   {
     file: { label: "Purchase order", icon: <DocumentPdfRegular /> },
     author: { label: "Jane Doe", status: "offline" },
     lastUpdated: { label: "Tue at 9:30 AM", timestamp: 3 },
+    lastUpdate: {
+      label: "You shared this in a Teams chat",
+      icon: <PeopleRegular />,
+    },
   },
 ];
 
@@ -80,7 +105,7 @@ const columns: TableColumnDefinition<Item>[] = [
     },
     renderCell: (item) => {
       return (
-        <TableCellLayout media={item.file.icon}>
+        <TableCellLayout truncate media={item.file.icon}>
           {item.file.label}
         </TableCellLayout>
       );
@@ -97,6 +122,7 @@ const columns: TableColumnDefinition<Item>[] = [
     renderCell: (item) => {
       return (
         <TableCellLayout
+          truncate
           media={
             <Avatar
               aria-label={item.author.label}
@@ -111,79 +137,124 @@ const columns: TableColumnDefinition<Item>[] = [
     },
   }),
   createTableColumn<Item>({
-    columnId: "singleAction",
-    renderHeaderCell: () => {
-      return "Single action";
+    columnId: "lastUpdated",
+    compare: (a, b) => {
+      return a.lastUpdated.timestamp - b.lastUpdated.timestamp;
     },
-    renderCell: () => {
-      return <Button icon={<OpenRegular />}>Open</Button>;
+    renderHeaderCell: () => {
+      return "Last updated";
+    },
+
+    renderCell: (item) => {
+      return (
+        <TableCellLayout truncate>{item.lastUpdated.label}</TableCellLayout>
+      );
     },
   }),
   createTableColumn<Item>({
-    columnId: "actions",
-    renderHeaderCell: () => {
-      return "Actions";
+    columnId: "lastUpdate",
+    compare: (a, b) => {
+      return a.lastUpdate.label.localeCompare(b.lastUpdate.label);
     },
-    renderCell: () => {
+    renderHeaderCell: () => {
+      return "Last update";
+    },
+    renderCell: (item) => {
       return (
-        <>
-          <Button aria-label="Edit" icon={<EditRegular />} />
-          <Button aria-label="Delete" icon={<DeleteRegular />} />
-        </>
+        <TableCellLayout truncate media={item.lastUpdate.icon}>
+          {item.lastUpdate.label}
+        </TableCellLayout>
       );
     },
   }),
 ];
 
-const getCellFocusMode = (columnId: TableColumnId): DataGridCellFocusMode => {
-  switch (columnId) {
-    case "singleAction":
-      return "none";
-    case "actions":
-      return "group";
-    default:
-      return "cell";
-  }
+const columnSizingOptions = {
+  file: {
+    minWidth: 80,
+    defaultWidth: 120,
+  },
+  author: {
+    defaultWidth: 180,
+    minWidth: 120,
+    idealWidth: 180,
+  },
 };
 
 export const DataGridTable = () => {
+  const refMap = React.useRef<Record<string, HTMLElement | null>>({});
+
   return (
-    <DataGrid
-      items={items}
-      columns={columns}
-      sortable
-      selectionMode="multiselect"
-      getRowId={(item) => item.file.label}
-      onSelectionChange={(e, data) => console.log(data)}
-      style={{ minWidth: "550px" }}
-    >
-      <DataGridHeader>
-        <DataGridRow
-          selectionCell={{
-            checkboxIndicator: { "aria-label": "Select all rows" },
-          }}
-        >
-          {({ renderHeaderCell }) => (
-            <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
-          )}
-        </DataGridRow>
-      </DataGridHeader>
-      <DataGridBody<Item>>
-        {({ item, rowId }) => (
-          <DataGridRow<Item>
-            key={rowId}
-            selectionCell={{
-              checkboxIndicator: { "aria-label": "Select row" },
-            }}
-          >
-            {({ renderCell, columnId }) => (
-              <DataGridCell focusMode={getCellFocusMode(columnId)}>
-                {renderCell(item)}
-              </DataGridCell>
-            )}
-          </DataGridRow>
+    <div style={{ overflowX: "auto" }}>
+      <DataGrid
+        items={items}
+        columns={columns}
+        sortable
+        getRowId={(item) => item.file.label}
+        selectionMode="multiselect"
+        resizableColumns
+        columnSizingOptions={columnSizingOptions}
+      >
+        {true ? (
+          <>No Data</>
+        ) : (
+          <>
+            <DataGridHeader>
+              <DataGridRow
+                selectionCell={{
+                  checkboxIndicator: { "aria-label": "Select all rows" },
+                }}
+              >
+                {({ renderHeaderCell, columnId }, dataGrid) =>
+                  dataGrid.resizableColumns ? (
+                    <Menu openOnContext>
+                      <MenuTrigger>
+                        <DataGridHeaderCell
+                          ref={(el) => {
+                            // console.log("RP table :", columnId, dataGrid);
+                            refMap.current[columnId] = el;
+                          }}
+                        >
+                          {renderHeaderCell()}
+                        </DataGridHeaderCell>
+                      </MenuTrigger>
+                      <MenuPopover>
+                        <MenuList>
+                          <MenuItem
+                            onClick={dataGrid.columnSizing_unstable.enableKeyboardMode(
+                              columnId
+                            )}
+                          >
+                            Keyboard Column Resizing
+                          </MenuItem>
+                        </MenuList>
+                      </MenuPopover>
+                    </Menu>
+                  ) : (
+                    <DataGridHeaderCell>
+                      {renderHeaderCell()}
+                    </DataGridHeaderCell>
+                  )
+                }
+              </DataGridRow>
+            </DataGridHeader>
+            <DataGridBody<Item>>
+              {({ item, rowId }) => (
+                <DataGridRow<Item>
+                  key={rowId}
+                  selectionCell={{
+                    checkboxIndicator: { "aria-label": "Select row" },
+                  }}
+                >
+                  {({ renderCell }) => (
+                    <DataGridCell>{renderCell(item)}</DataGridCell>
+                  )}
+                </DataGridRow>
+              )}
+            </DataGridBody>
+          </>
         )}
-      </DataGridBody>
-    </DataGrid>
+      </DataGrid>
+    </div>
   );
 };

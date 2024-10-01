@@ -1,11 +1,11 @@
 import Capitalize, { Header, SubTitle } from "@/components/atoms/Text";
+import { convertToMins } from "@/helpers/common";
 import { Dish } from "@/types";
 import Image from "next/image";
 import { FC } from "react";
 
 const DishConatiner = ({ dish }: { dish: Dish }) => {
   const {
-    id,
     diet,
     ingredient_names,
     name,
@@ -68,9 +68,7 @@ const InfoSection: FC<{
   return (
     <div>
       <SubTitle>{`${label} : `}</SubTitle>
-      <span className="capitalize">
-        {typeof value === "number" ? value + " Mins" : value}
-      </span>
+      <span className="capitalize">{convertToMins(value)}</span>
     </div>
   );
 };

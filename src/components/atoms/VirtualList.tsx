@@ -31,7 +31,7 @@ export const VirtualList = ({
   dishes = [],
 }: Props) => {
   const styles = useStyles();
-  const [showOverlay, setShowOverlay] = useState(loading);
+  const [showLoader, setShowLoader] = useState(loading);
   const childLength = dishes?.length;
 
   const {
@@ -47,10 +47,10 @@ export const VirtualList = ({
   //Workaround for loader flickering effect
   useEffect(() => {
     if (loading) {
-      setShowOverlay(true);
+      setShowLoader(true);
     } else {
       const timer = setTimeout(() => {
-        setShowOverlay(false);
+        setShowLoader(false);
       }, 200);
       return () => clearTimeout(timer);
     }
@@ -63,7 +63,7 @@ export const VirtualList = ({
       role={"list"}
       ref={scrollRef}
     >
-      {showOverlay ? (
+      {showLoader ? (
         <div className="h-[30vh] flex items-center justify-center">
           <span className="relative flex h-10 w-10">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
