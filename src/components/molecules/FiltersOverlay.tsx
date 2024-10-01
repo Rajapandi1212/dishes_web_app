@@ -33,7 +33,7 @@ const FiltersOverlay = ({ filterState, handleFiltersUpdate }: Props) => {
       : ""
   );
   const [prepTime, setPrepTime] = useState<string | undefined>(
-    filterState?.["prepTime[lte]"] || filterState?.["cookTime[gte]"]
+    filterState?.["prepTime[lte]"] || filterState?.["prepTime[gte]"]
   );
   const router = useRouter();
   const filtersRef = useRef<HTMLDivElement>(null);
@@ -43,12 +43,18 @@ const FiltersOverlay = ({ filterState, handleFiltersUpdate }: Props) => {
     setPrepTime(undefined);
     setSortForCT("");
     setSortForPT("");
-    router.push(
-      `/?${createQueryString({
-        sortBy: filterState?.sortBy,
-        sortDirection: filterState?.sortDirection,
-      })}`
-    );
+    handleFiltersUpdate({
+      sortBy: filterState?.sortBy,
+      sortDirection: filterState?.sortDirection,
+      "cookTime[gte]": undefined,
+      "cookTime[lte]": undefined,
+      "prepTime[gte]": undefined,
+      "prepTime[lte]": undefined,
+      diet: undefined,
+      page: "1",
+      region: undefined,
+      state: undefined,
+    });
     setShow(false);
   };
 
@@ -68,8 +74,8 @@ const FiltersOverlay = ({ filterState, handleFiltersUpdate }: Props) => {
         payload["prepTime[gte]"] = prepTime;
       }
     }
-    const createdQuery = createQueryString({ ...filterState, ...payload });
-    router.push(`/?${createdQuery}`);
+    handleFiltersUpdate(payload);
+
     setShow(false);
   };
 

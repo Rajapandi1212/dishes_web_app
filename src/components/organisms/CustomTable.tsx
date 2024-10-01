@@ -11,6 +11,8 @@ const DishesTable = dynamic(() => import("./DishesTable"), {
 import { ApiResponse, Dish, DishFilterParams } from "@/types";
 import Filters from "../molecules/Filters";
 import { getOrderByName, isSortedASC } from "@/helpers/common";
+import Pagination from "../molecules/Pagination";
+import PerPage from "../molecules/PerPage";
 // import DishesTable from "./DishesTable";
 interface Props {
   tableData: ApiResponse<Dish[]>;
@@ -47,6 +49,19 @@ const CustomTable = ({ tableData }: Props) => {
         order={order}
         sortedByASC={sortedByASC}
       />
+      <PerPage
+        filterState={filterState}
+        handleFiltersUpdate={handlleSettingFilters}
+      />
+      {tableData?.success ? (
+        <>
+          <Pagination
+            handleFiltersUpdate={handlleSettingFilters}
+            filterState={filterState}
+            total={tableData?.total as number}
+          />
+        </>
+      ) : null}
     </div>
   );
 };

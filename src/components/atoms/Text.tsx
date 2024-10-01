@@ -37,7 +37,7 @@ export const SubTitle = ({ children, className = "" }: BasicTextProps) => (
 );
 
 const Capitalize: FC<BasicTextProps> = ({ children, className = " " }) => {
-  return <div className={"capitalize" + className}>{children}</div>;
+  return <div className={"capitalize " + className}>{children}</div>;
 };
 
 export default Capitalize;

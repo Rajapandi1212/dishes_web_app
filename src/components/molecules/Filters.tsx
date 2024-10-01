@@ -25,7 +25,7 @@ const Filters = ({ filterState, handleFiltersUpdate }: Props) => {
       <div>
         <DropdownSelector
           isHideNone={true}
-          title="Sort Direction"
+          title="Direction"
           dropDownValue="sortDirection"
           selectedValue={filterState?.sortDirection}
           options={orderDirections}
@@ -41,9 +41,3 @@ const Filters = ({ filterState, handleFiltersUpdate }: Props) => {
 };
 
 export default Filters;
-
-{
-  /* <button onClick={() => handleFiltersUpdate({ ...filterState, diet: "1" })}>
-Filters
-</button> */
-}

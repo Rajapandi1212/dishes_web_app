@@ -35,7 +35,10 @@ const DishConatiner = ({ dish }: { dish: Dish }) => {
         <SubTitle>Ingredients :</SubTitle>
         <div className="flex flex-row flex-wrap gap-x-4 gap-y-2">
           {ingredient_names?.map((ingredient, i) => (
-            <Capitalize key={"ingredient" + ingredient + i}>
+            <Capitalize
+              key={"ingredient" + ingredient + i}
+              className="text-base"
+            >
               {ingredient}
             </Capitalize>
           ))}
@@ -68,7 +71,7 @@ const InfoSection: FC<{
   return (
     <div>
       <SubTitle>{`${label} : `}</SubTitle>
-      <span className="capitalize">{convertToMins(value)}</span>
+      <span className="capitalize text-base">{convertToMins(value)}</span>
     </div>
   );
 };
