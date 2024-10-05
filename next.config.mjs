@@ -1,4 +1,15 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+import createNextIntlPlugin from "next-intl/plugin";
 
-export default nextConfig;
+const withNextIntl = createNextIntlPlugin();
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: false,
+  experimental: {
+    swcPlugins: [
+      ["fluentui-next-appdir-directive", { paths: ["@griffel", "@fluentui"] }],
+    ],
+  },
+};
+
+export default withNextIntl(nextConfig);
